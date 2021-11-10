@@ -1,6 +1,6 @@
 {
   "name": "@bazooka_se/make",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A scaffolding tool for creating components in an existing project.",
   "repository": {
     "type": "git",
