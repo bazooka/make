@@ -2,6 +2,10 @@
   "name": "@bazooka_se/make",
   "version": "1.0.0",
   "description": "A scaffolding tool for creating components in an existing project.",
+  "repository": {
+    "type": "git",
+    "url": "bazooka/make"
+  },
   "files": [
     "dist/index.js"
   ],
