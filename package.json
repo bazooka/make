@@ -16,9 +16,9 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "colors": "^1.4.0",
+    "enquirer": "^2.3.6",
     "esbuild": "^0.13.13",
     "fs-extra": "^10.0.0",
-    "inquirer": "^8.2.0",
     "recursive-readdir": "^2.2.2"
   }
 }

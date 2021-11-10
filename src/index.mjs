@@ -1,7 +1,6 @@
 import path from 'path';
 import colors from 'colors';
 import make from './make.mjs';
-import inquirer from 'inquirer';
 import abort from './utils/abort.mjs';
 import nameIsValid from './utils/nameIsValid.mjs';
 import getSubFolders from './utils/getSubFolders.mjs';
@@ -14,6 +13,8 @@ import {
 import getTypeName from './utils/getTypeName.mjs';
 import getTemplateSettings from './utils/getTemplateSettings.mjs';
 import readProjectSettings from './utils/readProjectSettings.mjs';
+import { promptSelect } from './utils/prompts.mjs';
+import { promptText } from './utils/prompts.mjs';
 
 // --------------------------------------------------------------
 // TOOLING CONSTS
@@ -46,12 +47,11 @@ async function run(rootPath) {
     }
 
     // Prompt for template
-    const { template } = await inquirer.prompt([{
-        type: 'list',
+    const template = await promptSelect({
         name: 'template',
         message: 'Choose template',
         choices: templates
-    }]);
+    });
 
     let templateSettings = await getTemplateSettings(template, projectSettings);
 
@@ -59,13 +59,11 @@ async function run(rootPath) {
 
         const subFolders = await getSubFolders(templateSettings.destination);
 
-        // Prompt for template
-        const { subFolder } = await inquirer.prompt([{
-            type: 'list',
+        const subFolder = await promptSelect({
             name: 'subFolder',
             message: 'Choose directory',
             choices: subFolders
-        }]);
+        });
 
         templateSettings.destination = path.resolve(templateSettings.destination, subFolder);
     }
@@ -74,9 +72,7 @@ async function run(rootPath) {
     const type = getTypeName(template);
 
     // Prompt for a name
-    const { name } = await inquirer.prompt([{
-        type: 'input',
-        name: 'name',
+    const name = await promptText([{
         message: `Name the ${ type }`,
     }]);
 
