@@ -13,7 +13,7 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "bluebird": "^3.7.2",
     "colors": "^1.4.0",
     "enquirer": "^2.3.6",
