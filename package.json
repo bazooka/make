@@ -11,7 +11,7 @@
   "scripts": {
     "build": "esbuild index.mjs --bundle --platform=node --target=node10 --outfile=dist/index.js"
   },
-  "author": "",
+  "author": "Jonas Nilsson",
   "license": "ISC",
   "devDependencies": {
     "bluebird": "^3.7.2",
@@ -20,5 +20,8 @@
     "esbuild": "^0.13.13",
     "fs-extra": "^10.0.0",
     "recursive-readdir": "^2.2.2"
+  },
+  "engines": {
+    "node": ">=12"
   }
 }
