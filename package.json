@@ -1,0 +1,22 @@
+{
+  "name": "@bazooka_se/make",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "bin": {
+    "bazooka-make": "dist/index.js"
+  },
+  "scripts": {
+    "build": "esbuild index.mjs --bundle --platform=node --target=node10 --outfile=dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "colors": "^1.4.0",
+    "esbuild": "^0.13.13",
+    "fs-extra": "^10.0.0",
+    "inquirer": "^8.2.0",
+    "recursive-readdir": "^2.2.2"
+  }
+}
