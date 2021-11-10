@@ -15,7 +15,7 @@ Add a script entry to your `package.json` file:
 ...
 "scripts": {
     ...
-    "make": "@bazooka_se/make"
+    "make": "bazooka-make"
 }
 ```
 
