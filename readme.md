@@ -1,4 +1,7 @@
-<h1 align="center">Bazooka Make</h1>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/bazooka/make/main/media/bm.png" alt="Bazooka Make" width="750">
+</p>
 
 <p align="center">
   <b>Bazooka Make</b> is a scaffolding tool for generating generic components in an existing project.
