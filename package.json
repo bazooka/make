@@ -9,7 +9,8 @@
     "bazooka-make": "dist/index.js"
   },
   "scripts": {
-    "build": "esbuild index.mjs --bundle --platform=node --target=node10 --outfile=dist/index.js"
+    "build": "esbuild index.mjs --bundle --platform=node --target=node10 --outfile=dist/index.js",
+    "prepublish": "npm run build"
   },
   "author": "Jonas Nilsson",
   "license": "ISC",
