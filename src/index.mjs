@@ -72,9 +72,9 @@ async function run(rootPath) {
     const type = getTypeName(template);
 
     // Prompt for a name
-    const name = await promptText([{
+    const name = await promptText({
         message: `Name the ${ type }`,
-    }]);
+    });
 
     // Must be valid!
     if (!name || !nameIsValid(name)) {
