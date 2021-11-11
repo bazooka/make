@@ -62,7 +62,7 @@ The following values are supported at the moment:
 
 A template can contain both files and directories. Empty directories are ignored.
 
-See example templates (https://github.com/bazooka/make/tree/main/templates/)[here].
+See example templates [here](https://github.com/bazooka/make/tree/main/templates/).
 
 ### Template data
 
