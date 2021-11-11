@@ -62,6 +62,8 @@ The following values are supported at the moment:
 
 A template can contain both files and directories. Empty directories are ignored.
 
+See example templates (https://github.com/bazooka/make/tree/main/templates/)[here].
+
 ### Template data
 
 The templates will be passed data that can be accessed in both files and filenames. Currently the only data passed is the name you enter, together with case convertions, see below.
@@ -71,6 +73,7 @@ Use the following syntax to access the passed data:
 ```sh
 # In a filename
 [%name%]
+[%name.toScreamingSnakeCase%]
 ```
 
 ```sh
@@ -91,14 +94,14 @@ Available case conversions
 
 ## Filenames
 
-All files must have the file ending `.template` to be included. Any underscores in the filename will be converted to a dot.
+All files must have the file ending `.template` to be included.
 
 ### Filename examples
 
 | Template | Result |
 | --- | --- |
-| `index_js.template` | `index.js` |
-| `[%name%]_module_scss.template` | `ComponentName.module.scss` |
+| `index.js.template` | `index.js` |
+| `[%name%].module.scss.template` | `ComponentName.module.scss` |
 
 ### Template settings
 

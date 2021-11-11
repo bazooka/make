@@ -20,7 +20,6 @@ async function getTemplate(type, data, templateSettings, projectSettings) {
 
             filename = filename.replace(templatePath + '/', '');
             filename = filename.replace('.template', '');
-            filename = filename.replace(/_/g, '.');
 
             return {
                 source: file,
