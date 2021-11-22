@@ -11,8 +11,13 @@ async function getSubFolders(dir) {
         return [];
     }
 
-    const templates = await fs.readdir(full_path);
-    return templates;
+    const items = await fs.readdir(full_path, { withFileTypes: true });
+
+    const folders = items
+        .filter(item => item.isDirectory())
+        .map(item => item.name);
+
+    return folders;
 }
 
 export default getSubFolders;
