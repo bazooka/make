@@ -105,19 +105,21 @@ All files must have the file ending `.template` to be included.
 
 ### Template settings
 
-Each template directory can have a `.settings` file that supports the following settings:
+Each template can have a `.settings` file that supports the following settings:
 
 | Setting | Default | Description |
 | --- | --- | --- |
 | `destination` | `null` | This is generated from selected template by default. |
 | `new_folder` | `false` | Set to false to place template content in the root of destination folder. |
 | `prompt_subfolder` | `true` | Set to true if destination folder has subfolders where generated component should be placed. |
+| `naming_convention` |  | A string or an array of strings with regular expressions that given name should match. Disable naming convention by setting a falsy value. Default convention is UpperCamelCase. |
 
 ```json
 {
     "destination": "tests/",
     "prompt_subfolder": true,
-    "new_folder": false
+    "new_folder": false,
+    "naming_convention": ["^my[A-Z].+$", "[^_]"]
 }
 ```
 <sub><i>Example `.settings` file.</i></sub>

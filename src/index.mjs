@@ -12,6 +12,7 @@ import {
 } from './utils/convertCase.mjs';
 import getTypeName from './utils/getTypeName.mjs';
 import getTemplateSettings from './utils/getTemplateSettings.mjs';
+import getNamingConvention from './utils/getNamingConvention.mjs';
 import readProjectSettings from './utils/readProjectSettings.mjs';
 import { promptSelect } from './utils/prompts.mjs';
 import { promptText } from './utils/prompts.mjs';
@@ -36,64 +37,73 @@ export const DEFAULT_PROJECT_SETTINGS = {
 // --------------------------------------------------------------
 
 async function run(rootPath) {
+    try {
+        const projectSettings = await readProjectSettings(rootPath);
 
-    const projectSettings = await readProjectSettings(rootPath);
+        // Read templates and have user select one
+        const templates = await getSubFolders(projectSettings.templates_dir);
 
-    // Read templates and have user select one
-    const templates = await getSubFolders(projectSettings.templates_dir);
+        if(!templates.length) {
+            abort(`No templates found.`);
+        }
 
-    if(!templates.length) {
-        abort(`No templates found.`);
-    }
-
-    // Prompt for template
-    const template = await promptSelect({
-        name: 'template',
-        message: 'Choose template',
-        choices: templates
-    });
-
-    let templateSettings = await getTemplateSettings(template, projectSettings);
-
-    if(templateSettings.prompt_subfolder) {
-
-        const subFolders = await getSubFolders(templateSettings.destination);
-
-        const subFolder = await promptSelect({
-            name: 'subFolder',
-            message: 'Choose directory',
-            choices: subFolders
+        // Prompt for template
+        const template = await promptSelect({
+            name: 'template',
+            message: 'Choose template',
+            choices: templates
         });
 
-        templateSettings.destination = path.resolve(templateSettings.destination, subFolder);
+        let templateSettings = await getTemplateSettings(template, projectSettings);
+
+        if(templateSettings.prompt_subfolder) {
+
+            const subFolders = await getSubFolders(templateSettings.destination);
+
+            const subFolder = await promptSelect({
+                name: 'subFolder',
+                message: 'Choose directory',
+                choices: subFolders
+            });
+
+            templateSettings.destination = path.resolve(templateSettings.destination, subFolder);
+        }
+
+        // Get the type name from template
+        const type = getTypeName(template);
+
+        // Prompt for a name
+        const name = await promptText({
+            message: `Name the ${ type }`,
+        });
+
+        const namingConvention = getNamingConvention(templateSettings);
+
+        // Must be valid!
+        if (!name || !nameIsValid(name, namingConvention)) {
+            abort(`The given name "${ colors.green(name) }" is invalid.`);
+        }
+
+        // Create some name versions
+        const nameVariants = {
+            upperCamelCase: name,
+            lowerCamelCase: convertLowerCamelCase(name),
+            dashedCase: convertToDashCase(name),
+            snakeCase: convertToSnakeCase(name),
+            screamingSnakeCase: convertToScreamingSnakeCase(name),
+        };
+
+        // Make the component!
+        await make(name, template, templateSettings, projectSettings, nameVariants);
+
+        return name;
+    } catch(e) {
+        if(!e) {
+            abort(`Stopped by user.`);
+        } else {
+            console.log(e);
+        }
     }
-
-    // Get the type name from template
-    const type = getTypeName(template);
-
-    // Prompt for a name
-    const name = await promptText({
-        message: `Name the ${ type }`,
-    });
-
-    // Must be valid!
-    if (!name || !nameIsValid(name)) {
-        abort(`The given name "${ colors.green(name) }" is invalid.`);
-    }
-
-    // Create some name versions
-    const nameVariants = {
-        upperCamelCase: name,
-        lowerCamelCase: convertLowerCamelCase(name),
-        dashedCase: convertToDashCase(name),
-        snakeCase: convertToSnakeCase(name),
-        screamingSnakeCase: convertToScreamingSnakeCase(name),
-    };
-
-    // Make the component!
-    await make(name, template, templateSettings, projectSettings, nameVariants);
-
-    return name;
 }
 
 export default run;

@@ -1,21 +1,37 @@
+import colors from 'colors';
 
 /**
- * Make sure given names is UpperCamelCase
+ * Make sure given names is valid.
+ * 
  * @param {String} name
+ * @param {Array} rules
  */
-function nameIsValid(name) {
+function nameIsValid(name, rules) {
 
-    const firstIsUpperCase = name.charAt(0) === name.charAt(0).toUpperCase();
-    const noDashes = name.indexOf('-') === -1;
-    const noUnderscores = name.indexOf('_') === -1;
-
-    if(!firstIsUpperCase || !noDashes || !noUnderscores) {
-        console.log(`Name must be ${ 'UpperCamelCase'.red }`);
+    if(!rules || !rules.length) {
+        // No rules, anything goes.
+        return true;
     }
 
-    return  firstIsUpperCase &&
-            noDashes &&
-            noUnderscores;
+    const testedRules = rules.map(rule => {
+        const res = name.match(new RegExp(rule));
+        return res === null ? rule : false;
+    }).filter(rule => rule);
+
+    const failedTest = testedRules.some(test => test);
+
+    if(failedTest) {
+        console.log(`The given name is invalid. Failed the following test(s):
+"${ testedRules.map(e => colors.red(e)).join('",\n"') }"`);
+    }
+
+    return !failedTest;
 }
 
 export default nameIsValid;
+
+export const NAMING_RULE_UPPER_CAMEL_CASE = [
+    '^[A-Z].*$',    // Initial upper case
+    '^[^-]*$',      // No dashes
+    '^[^_]*$',      // No underscores
+];
